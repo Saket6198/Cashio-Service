@@ -27,7 +27,7 @@ export const createProfile = async (req: Request, res: Response) => {
 export const fetchAllProfiles = async (req: Request, res: Response) => {
   try {
     const profiles = await newProfile
-      .find({}, { name: 1, uuid: 1, createdAt: 1 })
+      .find({}, { name: 1, uuid: 1, entityType: 1, createdAt: 1 })
       .sort({ createdAt: -1 });
     return res.json({ status: true, profiles });
   } catch (err: any) {
