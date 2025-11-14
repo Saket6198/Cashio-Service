@@ -18,10 +18,31 @@ export const fetchAllTransactionsByProfile = async (
   res: Response
 ) => {
   try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+
     const transactions = await newTransaction
       .find({ profileId: req.params.profileId })
-      .sort({ createdAt: -1 });
-    return res.json({ status: true, transactions });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalTransactions = await newTransaction.countDocuments({
+      profileId: req.params.profileId,
+    });
+    const totalPages = Math.ceil(totalTransactions / limit);
+
+    return res.json({
+      status: true,
+      transactions,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalTransactions,
+        limit,
+      },
+    });
   } catch (err: any) {
     console.log("Error fetching transactions:", err);
     return res.json({ status: false, message: "Error fetching transactions" });
