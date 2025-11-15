@@ -19,12 +19,11 @@ const newTransactionSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    created: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 export const newTransaction = mongoose.model(
   "newTransaction",
   newTransactionSchema
 );
-
-
