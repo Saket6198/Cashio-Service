@@ -8,7 +8,6 @@ import {
   createTransaction,
   fetchAllTransactionsByProfile,
 } from "../controllers/transactions";
-import { newProfile } from "../models/newProfile";
 
 export const profileRouter = express.Router();
 
