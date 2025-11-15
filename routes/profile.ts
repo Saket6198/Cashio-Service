@@ -1,11 +1,14 @@
 import express from "express";
-import { createProfile, fetchAllProfiles } from "../controllers/userProfiles";
-import { newProfile } from "../models/newProfile";
-import { newTransaction } from "../models/newTransaction";
+import {
+  createProfile,
+  fetchAllProfiles,
+  fetchProfileById,
+} from "../controllers/userProfiles";
 import {
   createTransaction,
   fetchAllTransactionsByProfile,
 } from "../controllers/transactions";
+import { newProfile } from "../models/newProfile";
 
 export const profileRouter = express.Router();
 
@@ -19,3 +22,5 @@ profileRouter.get(
   "/getAllTransactions/:profileId",
   fetchAllTransactionsByProfile
 );
+
+profileRouter.get("/profile/:profileId", fetchProfileById);

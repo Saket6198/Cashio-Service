@@ -35,3 +35,17 @@ export const fetchAllProfiles = async (req: Request, res: Response) => {
     return res.json({ status: false, message: "Error fetching profiles" });
   }
 };
+
+export const fetchProfileById = async (req: Request, res: Response) => {
+  try {
+    const profileId = req.params.profileId;
+    const profile = await newProfile.findOne({ _id: profileId });
+    if (!profile) {
+      return res.json({ status: false, message: "Profile not found" });
+    }
+    return res.json({ status: true, profile });
+  } catch (err: any) {
+    console.log("Error fetching profile:", err);
+    return res.json({ status: false, message: "Error fetching profile" });
+  }
+};
