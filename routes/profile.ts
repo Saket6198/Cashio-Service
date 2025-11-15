@@ -3,11 +3,13 @@ import {
   createProfile,
   fetchAllProfiles,
   fetchProfileById,
+  updateProfile,
 } from "../controllers/userProfiles";
 import {
   createTransaction,
   fetchAllTransactionsByProfile,
 } from "../controllers/transactions";
+import { newProfile } from "../models/newProfile";
 
 export const profileRouter = express.Router();
 
@@ -23,3 +25,4 @@ profileRouter.get(
 );
 
 profileRouter.get("/profile/:profileId", fetchProfileById);
+profileRouter.post("/profile/update/:profileId", updateProfile);

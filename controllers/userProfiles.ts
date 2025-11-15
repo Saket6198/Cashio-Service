@@ -49,3 +49,26 @@ export const fetchProfileById = async (req: Request, res: Response) => {
     return res.json({ status: false, message: "Error fetching profile" });
   }
 };
+
+export const updateProfile = async (req: Request, res: Response) => {
+  try {
+    const profileId = req.params.profileId;
+    const updateData = req.body;
+    const updatedProfile = await newProfile.findByIdAndUpdate(
+      profileId,
+      updateData,
+      { new: true }
+    );
+    if (!updatedProfile) {
+      return res.json({ status: false, message: "Profile not found" });
+    }
+    return res.json({
+      status: true,
+      message: "Profile updated successfully",
+      profile: updatedProfile,
+    });
+  } catch (err: any) {
+    console.log("Error updating profile:", err);
+    return res.json({ status: false, message: "Error updating profile" });
+  }
+};
