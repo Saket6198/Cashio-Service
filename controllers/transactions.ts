@@ -71,3 +71,27 @@ export const deleteTransaction = async (req: Request, res: Response) => {
       .json({ status: false, message: "Error deleting transaction" });
   }
 };
+
+export const updateTransaction = async (req: Request, res: Response) => {
+  try {
+    const transactionId = req.params.transactionId;
+    const user = await newTransaction.findById(transactionId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Transaction not found" });
+    }
+    await newTransaction.findByIdAndUpdate(transactionId, req.body, {
+      new: true,
+    });
+    return res.status(200).json({
+      status: true,
+      message: "Transaction updated successfully",
+    });
+  } catch (err: any) {
+    console.log("Error updating transaction:", err);
+    return res
+      .status(500)
+      .json({ status: false, message: "Error updating transaction" });
+  }
+};
