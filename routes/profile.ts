@@ -7,6 +7,7 @@ import {
 } from "../controllers/userProfiles";
 import {
   createTransaction,
+  deleteTransaction,
   fetchAllTransactionsByProfile,
 } from "../controllers/transactions";
 
@@ -25,3 +26,4 @@ profileRouter.get(
 
 profileRouter.get("/profile/:profileId", fetchProfileById);
 profileRouter.put("/profile/update/:profileId", updateProfile);
+profileRouter.delete("/transaction/:transactionId", deleteTransaction);

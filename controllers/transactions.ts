@@ -48,3 +48,26 @@ export const fetchAllTransactionsByProfile = async (
     return res.json({ status: false, message: "Error fetching transactions" });
   }
 };
+
+export const deleteTransaction = async (req: Request, res: Response) => {
+  try {
+    const transactionId = req.params.transactionId;
+    const deletedTransaction = await newTransaction.findByIdAndDelete(
+      transactionId
+    );
+    if (!deletedTransaction) {
+      return res
+        .status(404)
+        .json({ status: false, message: "Transaction not found" });
+    }
+    return res.json({
+      status: true,
+      message: "Transaction deleted successfully",
+    });
+  } catch (err: any) {
+    console.log("Error deleting transaction:", err);
+    return res
+      .status(500)
+      .json({ status: false, message: "Error deleting transaction" });
+  }
+};
