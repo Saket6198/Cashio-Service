@@ -29,5 +29,5 @@ profileRouter.get(
 profileRouter.get("/profile/:profileId", fetchProfileById);
 profileRouter.put("/profile/update/:profileId", updateProfile);
 profileRouter.delete("/transaction/:transactionId", deleteTransaction);
-profileRouter.put("/updateTransaction/:transactionId", updateTransaction);
+profileRouter.patch("/updateTransaction/:transactionId", updateTransaction);
 profileRouter.get("/getTransaction/:transactionId", fetchTransactionById);
