@@ -3,6 +3,8 @@ import {
   createProfile,
   fetchAllProfiles,
   fetchProfileById,
+  fetchProfileSettingsByMonthYear,
+  fetchProfileSettingsHistory,
   updateProfile,
 } from "../controllers/userProfiles";
 import {
@@ -27,6 +29,11 @@ profileRouter.get(
 );
 
 profileRouter.get("/profile/:profileId", fetchProfileById);
+profileRouter.get("/profile/settings-history/:profileId", fetchProfileSettingsHistory);
+profileRouter.get(
+  "/profile/settings-history/:profileId/:year/:month",
+  fetchProfileSettingsByMonthYear
+);
 profileRouter.put("/profile/update/:profileId", updateProfile);
 profileRouter.delete("/transaction/:transactionId", deleteTransaction);
 profileRouter.patch("/updateTransaction/:transactionId", updateTransaction);

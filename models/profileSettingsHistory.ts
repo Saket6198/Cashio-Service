@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 
-const newProfileSchema = new mongoose.Schema(
+const profileSettingsHistorySchema = new mongoose.Schema(
   {
-    uuid: {
-      type: String,
+    profileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "newProfile",
       required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-      immutable: true,
+      index: true,
     },
-    name: {
-      type: String,
+    month: {
+      type: Number,
       required: true,
+      min: 1,
+      max: 12,
     },
-    entityType: {
-      type: String,
+    year: {
+      type: Number,
       required: true,
     },
     rentAmount: {
@@ -34,12 +34,17 @@ const newProfileSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    finePerDay: {
-      type: Number,
+    note: {
+      type: String,
+      default: "",
     },
     fineActive: {
       type: Boolean,
       default: false,
+    },
+    finePerDay: {
+      type: Number,
+      default: 0,
     },
     fineStartDate: {
       type: Date,
@@ -49,12 +54,11 @@ const newProfileSchema = new mongoose.Schema(
       type: Date,
       default: undefined,
     },
-    note: {
-      type: String,
-      default: "",
-    },
   },
   { timestamps: true },
 );
 
-export const newProfile = mongoose.model("newProfile", newProfileSchema);
+export const profileSettingsHistory = mongoose.model(
+  "profileSettingsHistory",
+  profileSettingsHistorySchema,
+);
