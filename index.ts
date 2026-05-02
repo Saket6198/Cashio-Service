@@ -4,6 +4,8 @@ import connectDb from "./config/db";
 import dotenv from "dotenv";
 import { profileRouter } from "./routes/profile";
 // import authRouter from "./routes/user_authentication";
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']);   
 
 dotenv.config({ path: ".env.local", quiet: true });
 const app = express();

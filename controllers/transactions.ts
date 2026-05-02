@@ -15,22 +15,31 @@ export const createTransaction = async (req: Request, res: Response) => {
 
 export const fetchAllTransactionsByProfile = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
+    const filter: any = { profileId: req.params.profileId };
+    const startDate = req.query.startDate as string;
+    const endDate = req.query.endDate as string;
+
+    if (startDate && endDate) {
+      filter.created = {
+        $gte: new Date(startDate),
+        $lt: new Date(endDate),
+      };
+    }
+
     const transactions = await newTransaction
-      .find({ profileId: req.params.profileId })
+      .find(filter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
-    const totalTransactions = await newTransaction.countDocuments({
-      profileId: req.params.profileId,
-    });
+    const totalTransactions = await newTransaction.countDocuments(filter);
     const totalPages = Math.ceil(totalTransactions / limit);
 
     return res.json({
@@ -52,9 +61,8 @@ export const fetchAllTransactionsByProfile = async (
 export const deleteTransaction = async (req: Request, res: Response) => {
   try {
     const transactionId = req.params.transactionId;
-    const deletedTransaction = await newTransaction.findByIdAndDelete(
-      transactionId
-    );
+    const deletedTransaction =
+      await newTransaction.findByIdAndDelete(transactionId);
     if (!deletedTransaction) {
       return res
         .status(404)

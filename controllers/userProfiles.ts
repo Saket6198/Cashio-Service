@@ -279,7 +279,9 @@ export const fetchProfileSettingsByMonthYear = async (
     }
 
     if (!record) {
-      return res.json({ status: false, message: "No settings history found" });
+      return res
+        .status(404)
+        .json({ status: false, message: "No settings history found" });
     }
 
     return res.json({
