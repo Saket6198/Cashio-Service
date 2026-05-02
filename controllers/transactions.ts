@@ -27,7 +27,7 @@ export const fetchAllTransactionsByProfile = async (
     const endDate = req.query.endDate as string;
 
     if (startDate && endDate) {
-      filter.created = {
+      filter.createdAt = {
         $gte: new Date(startDate),
         $lt: new Date(endDate),
       };
