@@ -7,6 +7,7 @@ const buildHistorySnapshot = (profileData: any) => ({
   month: toMonth(profileData?.month),
   year: toYear(profileData?.year),
   rentAmount: Number(profileData?.rentAmount) || 0,
+  previous_month_balance: Number(profileData?.previous_month_balance) || 0,
   gstAmount: Number(profileData?.gstAmount) || 0,
   vatAmount: Number(profileData?.vatAmount) || 0,
   otherCharges: Number(profileData?.otherCharges) || 0,
@@ -102,7 +103,9 @@ export const fetchAllProfiles = async (req: Request, res: Response) => {
     return res.json({ status: true, profiles });
   } catch (err: any) {
     console.log("Error fetching profiles:", err);
-    return res.status(500).json({ status: false, message: "Error fetching profiles" });
+    return res
+      .status(500)
+      .json({ status: false, message: "Error fetching profiles" });
   }
 };
 
@@ -163,6 +166,7 @@ export const fetchProfileSettingsHistory = async (
           month: 1,
           year: 1,
           rentAmount: 1,
+          previous_month_balance: 1,
           gstAmount: 1,
           vatAmount: 1,
           otherCharges: 1,
@@ -256,10 +260,7 @@ export const fetchProfileSettingsByMonthYear = async (
       const previousRecord = await profileSettingsHistory
         .findOne({
           profileId,
-          $or: [
-            { year: { $lt: year } },
-            { year, month: { $lt: month } },
-          ],
+          $or: [{ year: { $lt: year } }, { year, month: { $lt: month } }],
         })
         .sort({ year: -1, month: -1, createdAt: -1 });
 

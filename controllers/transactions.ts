@@ -2,7 +2,17 @@ import { newTransaction } from "../models/newTransaction";
 import { Request, Response } from "express";
 export const createTransaction = async (req: Request, res: Response) => {
   try {
+    if (req.body.created_at) {
+      const transaction = new newTransaction({
+        ...req.body,
+        createdAt: req.body.createdAt,
+      });
+      return await transaction.save({
+        timestamps: false,
+      });
+    }
     await newTransaction.create(req.body);
+
     return res.json({
       status: true,
       message: "Transaction created successfully",

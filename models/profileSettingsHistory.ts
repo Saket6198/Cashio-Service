@@ -22,6 +22,10 @@ const profileSettingsHistorySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    previous_month_balance: {
+      type: Number,
+      default: 0,
+    },
     gstAmount: {
       type: Number,
       required: true,
